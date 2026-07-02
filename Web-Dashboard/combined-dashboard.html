@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Sensor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .data-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 10px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 20px;
+            margin: 0;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Combined Sensor Dashboard</h1>
+
+    <div class="dashboard">
+        <div class="data-container">
+            <h2>Temperature</h2>
+            <p id="temperature">Loading...</p>
+        </div>
+        <div class="data-container">
+            <h2>Humidity</h2>
+            <p id="humidity">Loading...</p>
+        </div>
+        <div class="data-container">
+            <h2>Smoke Level</h2>
+            <p id="smoke">Loading...</p>
+        </div>
+        <div class="data-container">
+            <h2>Object Detection</h2>
+            <p id="objectDetected">Loading...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("37xPn3jUip7yw6H68"); // Public key
+        })();
+
+        const channelID = "2677079"; // Your ThingSpeak Channel ID
+        const readAPIKey = "S3SEY2U7EY8VELQX"; // Your ThingSpeak Read API Key
+        const emailRecipient = "23i431@psgtech.ac.in"; // Your email address
+
+        // Threshold values
+        const tempThreshold = 30; // Temperature threshold in °C
+        const humidityThreshold = 70; // Humidity threshold in %
+        const smokeThreshold = 100; // Smoke threshold
+
+        // Function to send email notifications
+        function sendEmail(subject, message) {
+            const templateParams = {
+                to_email: emailRecipient,
+                subject: subject,
+                message: message,
+            };
+
+            emailjs.send('service_q1mov9r', 'template_u9ob02j', templateParams) // Service and template IDs
+                .then((response) => {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, (error) => {
+                    console.error('Failed to send email:', error);
+                });
+        }
+
+        // Fetch sensor data and check for threshold violations
+        async function fetchSensorData() {
+            try {
+                const responses = await Promise.all([
+                    fetch(`https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`),
+                    fetch(`https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`),
+                    fetch(`https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`),
+                    fetch(`https://api.thingspeak.com/channels/${channelID}/fields/4.json?api_key=${readAPIKey}&results=1`)
+                ]);
+
+                const data = await Promise.all(responses.map(response => response.json()));
+                const temperature = parseFloat(data[0].feeds[0]?.field1) || 0; // Default to 0 if no data
+                const humidity = parseFloat(data[1].feeds[0]?.field2) || 0; // Default to 0 if no data
+                const smoke = parseFloat(data[2].feeds[0]?.field3) || 0; // Default to 0 if no data
+                const objectDetected = data[3].feeds[0]?.field4 == 1 ? "Object Detected" : "No Object Detected";
+
+                // Update the UI
+                document.getElementById("temperature").innerText = temperature + " °C";
+                document.getElementById("humidity").innerText = humidity + " %";
+                document.getElementById("smoke").innerText = smoke;
+                document.getElementById("objectDetected").innerText = objectDetected;
+
+                // Check thresholds and send email if exceeded
+                if (temperature > tempThreshold) {
+                    sendEmail('Temperature Alert', `Temperature exceeded threshold: ${temperature} °C`);
+                }
+                if (humidity > humidityThreshold) {
+                    sendEmail('Humidity Alert', `Humidity exceeded threshold: ${humidity} %`);
+                }
+                if (smoke > smokeThreshold) {
+                    sendEmail('Smoke Alert', `Smoke level exceeded threshold: ${smoke}`);
+                }
+
+            } catch (error) {
+                console.error('Error fetching sensor data:', error);
+            }
+        }
+
+        // Initial Fetch
+        fetchSensorData();
+        setInterval(fetchSensorData, 5000); // Refresh data every 5 seconds
+    </script>
+
+</body>
+</html>

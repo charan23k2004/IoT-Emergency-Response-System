@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Light background */
+    color: #333; /* Dark text for contrast */
+}
+
+.sidebar {
+    height: 100%;
+    width: 220px; /* Slightly wider */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #222; /* Dark sidebar */
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff; /* White text */
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #575757; /* Hover effect */
+}
+
+.content {
+    margin-left: 240px; /* Adjust for the wider sidebar */
+    padding: 15px;
+}
+
+.sensor-box {
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 220px; /* Consistent width */
+    background-color: #fff; /* White background for cards */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Shadow effect */
+}
+
+h1 {
+    color: #333; /* Main heading color */
+    font-size: 24px; /* Larger font size */
+}
+
+h2 {
+    font-size: 20px; /* Adjusted size for subheadings */
+    margin-bottom: 10px; /* Space below subheading */
+}

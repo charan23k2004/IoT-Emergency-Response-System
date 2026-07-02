@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Response System Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #F0F0F0; /* Light background color */
+            color: #333;
+        }
+
+        /* Upper Bar */
+        .topbar {
+            width: 100%;
+            background-color: #a3b18a; /* Updated color */
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .topbar .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .topbar .actions i {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: 100%;
+            width: 220px;
+            position: fixed;
+            top: 65px; /* Offset due to topbar */
+            left: 0;
+            background-color: #dad7cd; /* Updated color */
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333; /* Changed to a darker color for better contrast */
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #4b6cb7;
+            color: #fff;
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
+
+        .content {
+            margin-left: 240px;
+            margin-top: 80px; /* Offset due to topbar */
+            padding: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 0 10px;
+        }
+
+        .dashboard-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #4b6cb7;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 180px;
+            }
+            .content {
+                margin-left: 200px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="title">Emergency Response System</div>
+        <div class="actions">
+            <i class="fas fa-user"></i>
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-sync"></i>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="home.html"><i class="fas fa-home"></i>Home</a>
+        <a href="temperature.html"><i class="fas fa-thermometer-half"></i>Temperature</a>
+        <a href="humidity.html"><i class="fas fa-tint"></i>Humidity</a>
+        <a href="smoke.html"><i class="fas fa-smog"></i>Smoke Level</a>
+        <a href="objectDetected.html"><i class="fas fa-eye"></i>Object Detection</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i>About</a> <!-- Added About link -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="icon">🌡️</div>
+                <div class="card-header">Temperature</div>
+                <div class="card-content" id="temperature">Loading...</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon">💧</div>
+                <div class="card-header">Humidity</div>
+                <div class="card-content" id="humidity">Loading...</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon">🔥</div>
+                <div class="card-header">Smoke Level</div>
+                <div class="card-content" id="smoke">Loading...</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon">🔍</div>
+                <div class="card-header">Object Detection</div>
+                <div class="card-content" id="objectDetected">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const channelID = "2677079";
+        const readAPIKey = "S3SEY2U7EY8VELQX";
+
+        // Fetch Temperature
+        async function fetchTemperature() {
+            const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`);
+            const data = await response.json();
+            if (data.feeds.length > 0) {
+                const latestData = data.feeds[0];
+                document.getElementById("temperature").innerText = latestData.field1 + " °C";
+            } else {
+                document.getElementById("temperature").innerText = "No data available";
+            }
+        }
+
+        // Fetch Humidity
+        async function fetchHumidity() {
+            const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`);
+            const data = await response.json();
+            if (data.feeds.length > 0) {
+                const latestData = data.feeds[0];
+                document.getElementById("humidity").innerText = latestData.field2 + " %";
+            } else {
+                document.getElementById("humidity").innerText = "No data available";
+            }
+        }
+
+        // Fetch Smoke Level
+        async function fetchSmokeLevel() {
+            const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`);
+            const data = await response.json();
+            if (data.feeds.length > 0) {
+                const latestData = data.feeds[0];
+                document.getElementById("smoke").innerText = latestData.field3 + " ppm";
+            } else {
+                document.getElementById("smoke").innerText = "No data available";
+            }
+        }
+
+        // Fetch Object Detection
+        async function fetchObjectDetected() {
+            const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/4.json?api_key=${readAPIKey}&results=1`);
+            const data = await response.json();
+            if (data.feeds.length > 0) {
+                const latestData = data.feeds[0];
+                document.getElementById("objectDetected").innerText = latestData.field4 == 1 ? "Object Detected" : "No Object Detected";
+            } else {
+                document.getElementById("objectDetected").innerText = "No data available";
+            }
+        }
+
+        // Fetch all data and display
+        function fetchAllData() {
+            fetchTemperature();
+            fetchHumidity();
+            fetchSmokeLevel();
+            fetchObjectDetected();
+        }
+
+        // Initial Fetch
+        fetchAllData();
+
+        // Optionally, refresh data every 5 seconds
+        setInterval(fetchAllData, 5000);
+    </script>
+
+</body>
+</html>

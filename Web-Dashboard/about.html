@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #F0F0F0;
+            color: #333;
+        }
+
+        .topbar {
+            width: 100%;
+            background-color: #a3b18a;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .topbar .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .topbar .actions i {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 220px;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            background-color: #dad7cd;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #4b6cb7;
+            color: #fff;
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
+
+        .content {
+            margin-left: 240px;
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .about-section {
+            margin: 20px auto;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p {
+            text-align: justify; /* Justify alignment for paragraph text */
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Faculty Card */
+        .faculty-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        /* Team Member Cards */
+        .team-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 200px;
+            padding: 20px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            margin: 15px 0 5px;
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Center alignment for faculty and students' roll numbers */
+        .card h3,
+        .card p {
+            text-align: center;
+        }
+
+        /* Sensor Images Section */
+        .sensor-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two sensors per row */
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sensor-card {
+            text-align: center;
+            width: 100%; /* Full width in each grid cell */
+        }
+
+        .sensor-card img {
+            width: 50%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px; 
+        }
+
+        /* Implementation Overview Section */
+        .implementation-overview {
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .implementation-images {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .implementation-images img {
+            width: 48%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="title">About Our Project</div>
+        <div class="actions">
+            <i class="fas fa-user"></i>
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-sync"></i>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="home.html"><i class="fas fa-home"></i>Home</a>
+        <a href="temperature.html"><i class="fas fa-thermometer-half"></i>Temperature</a>
+        <a href="humidity.html"><i class="fas fa-tint"></i>Humidity</a>
+        <a href="smoke.html"><i class="fas fa-smog"></i>Smoke Level</a>
+        <a href="objectDetected.html"><i class="fas fa-eye"></i>Object Detection</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i>About</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Project Overview Section -->
+        <div class="about-section">
+            <h2>Project Overview</h2>
+            <p>
+                In this project, we developed a comprehensive sensor data dashboard that utilizes a DHT11 temperature and humidity sensor, along with additional sensors for gas detection and flame monitoring, all integrated with a NodeMCU (ESP8266) microcontroller. By leveraging the capabilities of the ESP8266, we facilitated real-time data transmission to ThingSpeak, a cloud-based platform for IoT applications. Our custom HTML dashboard fetches and displays sensor readings, providing users with an intuitive interface to monitor environmental conditions. Furthermore, we implemented email notifications to alert users when sensor thresholds are exceeded, enhancing safety and responsiveness.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>About the Components Used</h2>
+
+            <div class="sensor-images">
+                <div class="sensor-card">
+                    <img src="images/nodemcu.jpg" alt="NodeMCU (ESP8266)">
+                    <h3>NodeMCU (ESP8266)</h3>
+                    <p>The NodeMCU is a low-cost, open-source IoT platform with built-in Wi-Fi capabilities. It supports multiple GPIO pins for connecting various sensors and actuators, making it an ideal choice for IoT projects.</p>
+                </div>
+                <div class="sensor-card">
+                    <img src="images/dht11.jpg" alt="DHT11 Sensor">
+                    <h3>DHT11 Sensor</h3>
+                    <p>The DHT11 is a basic, low-cost digital temperature and humidity sensor. It provides reliable readings and is suitable for indoor environmental monitoring applications.</p>
+                </div>
+                <div class="sensor-card">
+                    <img src="images/mq2.jpg" alt="MQ-2 Gas Sensor">
+                    <h3>MQ-2 Sensor</h3>
+                    <p>The MQ-2 sensor is designed to detect various combustible gases such as methane, butane, propane, and smoke. It serves as a critical component for safety monitoring in environments where gas leaks may occur.</p>
+                </div>
+                <div class="sensor-card">
+                    <img src="images/flame.jpg" alt="Flame Sensor">
+                    <h3>Flame Sensor</h3>
+                    <p>The flame sensor is an infrared-based device that can detect fire or flames. It is essential for fire detection systems, ensuring timely alerts in emergency situations.</p>
+                </div>
+                <div class="sensor-card">
+                    <img src="images/buzzer.jpg" alt="Buzzer">
+                    <h3>Buzzer</h3>
+                    <p>A buzzer is a simple sound-emitting component used in alarm systems. It activates when certain thresholds are exceeded, providing an audible alert for immediate attention.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Overview Section -->
+        <div class="about-section">
+            <h2>Implementation Overview</h2>
+            <div class="implementation-images">
+                <img src="images/implementation1.png" alt="Implementation Overview 1">
+                <img src="images/thingspeak.png" alt="Implementation Overview 2">
+            </div>
+            <p><strong>Connecting the Sensor:</strong> We connected a DHT11 temperature and humidity sensor to our Arduino. We ensured the data pin was correctly wired to a digital pin on the Arduino for accurate readings.</p>
+            <p><strong>Writing Arduino Code:</strong> Using the Arduino IDE, we wrote code that enables the Arduino to read data from the DHT11 sensor. We incorporated an ESP8266 module to send the data to ThingSpeak for cloud storage and analysis.</p>
+            <p><strong>Setting Up ThingSpeak:</strong> We created an account on ThingSpeak and set up a channel to store our sensor data. We obtained the Channel ID and Write API Key, which are essential for sending our data to the cloud.</p>
+            <p><strong>Creating a Webpage:</strong> We developed a simple HTML page integrated with JavaScript. This page fetches the sensor data from ThingSpeak and displays it in real time on our dashboard, allowing easy monitoring.</p>
+            <p><strong>Deployment and Testing:</strong> After uploading the Arduino code, we opened our webpage to monitor the real-time sensor data. We tested the system thoroughly, adjusting thresholds and email notifications to ensure everything functions as intended.</p>
+        </div>
+
+        <!-- Team Members Section -->
+        <div class="about-section">
+            <h2>Our Team</h2>
+            <div class="faculty-section">
+                <div class="card">
+                    <img src="images/faculty.jpg" alt="Faculty Member">
+                    <h3>Ms. Priya S</h3>
+                    <p>Faculty Member</p>
+                </div>
+            </div>
+            <div class="team-section">
+                <div class="card">
+                    <img src="images/student1.jpg" alt="S S Naveen">
+                    <h3>S S Naveen</h3>
+                    <p>Roll Number: 22I248</p>
+                </div>
+                <div class="card">
+                    <img src="images/student2.jpg" alt="Sivaraman">
+                    <h3>Sivaraman</h3>
+                    <p>Roll Number: 23I434</p>
+                </div>
+                <div class="card">
+                    <img src="images/student3.jpg" alt="Vijayabasker">
+                    <h3>Vijayabasker</h3>
+                    <p>Roll Number: 23I435</p>
+                </div>
+                <div class="card">
+                    <img src="images/student4.jpg" alt="Sachin Karthick">
+                    <h3>Sachin Karthick</h3>
+                    <p>Roll Number: 23I433</p>
+                </div>
+                <div class="card">
+                    <img src="images/student5.jpg" alt="Charan K">
+                    <h3>Charan K</h3>
+                    <p>Roll Number: 23I431</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

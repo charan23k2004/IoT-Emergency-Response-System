@@ -1,0 +1,1 @@
+Place dashboard, hardware, ThingSpeak and alert screenshots here.
